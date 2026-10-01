@@ -477,6 +477,8 @@ fit();
 showTitle();
 requestAnimationFrame(tick);
 
+/* @test-hooks:start */
 // 테스트용
 window.__sp = { get drag() { return drag; }, get lastPos() { return lastPos; }, get st() { return st; }, get hist() { return hist; }, get state() { return { playing, paused, won, elapsed }; }, doMove, doDeal, undo, showHint, startGame, locate, render, fit, get M() { return M; }, els };
+/* @test-hooks:end */
 })();
