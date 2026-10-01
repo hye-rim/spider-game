@@ -67,8 +67,9 @@ function metrics() {
   // 폰은 가로가 모자라서 여백과 간격을 최소로 줄여 카드를 최대한 키운다
   const small = W < 520;
   const gap = small ? 1 : Math.max(2, Math.round(W * 0.007)), padX = small ? 2 : Math.max(3, Math.round(W * 0.01));
-  const cw = Math.floor((W - padX * 2 - gap * 9) / 10), ch = Math.round(cw * 1.45);
-  M = { W, H, gap, padX, cw, ch, top: 8, bottomH: ch + 16 };
+  // 폭은 더 못 늘리니 폰에서는 카드를 세로로 길게 해서 글씨와 누를 자리를 키운다
+  const cw = Math.floor((W - padX * 2 - gap * 9) / 10), ch = Math.round(cw * (small ? 1.62 : 1.45));
+  M = { W, H, gap, padX, cw, ch, small, top: 8, bottomH: ch + 16 };
   M.sw = Math.floor(cw * 0.66); M.sh = Math.round(M.sw * 1.42);
   board.style.setProperty('--cw', cw + 'px');
   board.style.setProperty('--ch', ch + 'px');
@@ -96,7 +97,8 @@ function placeSlots() {
 function offsets() {
   const avail = M.H - M.bottomH - M.top - 4;
   // 세로 공간이 넉넉한 폰에서는 넓게 펴 놓고, 열이 길어져 모자라면 아래에서 줄인다
-  let up = Math.round(M.ch * 0.56), down = Math.max(6, Math.round(M.ch * 0.2));
+  // 폰은 숫자·무늬를 위아래로 쌓아 보여 주니 겹친 카드가 보이는 띠를 조금 더 넓게
+  let up = Math.round(M.ch * (M.small ? 0.64 : 0.56)), down = Math.max(6, Math.round(M.ch * (M.small ? 0.26 : 0.2)));
   const need = (u, d) => Math.max(...st.cols.map((col) => col.reduce((s, id, i) => (i === col.length - 1 ? s + M.ch : s + (st.up[id] ? u : d)), 0)));
   const n0 = need(up, down);
   if (n0 > avail) {

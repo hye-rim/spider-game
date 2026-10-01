@@ -137,6 +137,12 @@
     #board { border-left:0; border-right:0; border-radius:0; box-shadow:none; }
     #overlay { border-radius:0; }
   }
+  /* 폰: 카드 폭이 좁으니 숫자와 무늬를 위아래로 쌓아 숫자를 크게 (겹친 카드의 보이는 띠 안에 둘 다 들어간다) */
+  @media (max-width:520px) {
+    .card { font-size:calc(var(--cw) * .58); }
+    .card .tl { flex-direction:column; align-items:flex-start; gap:0; left:calc(var(--cw) * .08); top:calc(var(--cw) * .06); }
+    .card .tl i { font-size:.72em; margin-top:1px; }
+  }
   @media (max-width:420px) {
     #hud { gap:4px; }
     #hud .label { display:none; }
