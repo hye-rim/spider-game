@@ -61,7 +61,7 @@
     position:absolute; left:0; top:0; width:var(--cw); height:var(--ch); border-radius:calc(var(--cw) * .14);
     border:2px solid var(--ink); background:#fff; box-shadow:0 2px 0 rgba(43,29,82,.55);
     transition:transform .24s cubic-bezier(.2,.8,.3,1), opacity .2s; will-change:transform;
-    font-size:calc(var(--cw) * .44); line-height:1; overflow:hidden; cursor:pointer;
+    font-size:calc(var(--cw) * .5); line-height:1; overflow:hidden; cursor:pointer;
   }
   .card.dragging { transition:none; box-shadow:0 10px 18px rgba(0,0,0,.35); }
   .card .face, .card .back { position:absolute; inset:0; }
@@ -77,7 +77,7 @@
   .card.up .back { display:none; }
   .card .tl { position:absolute; left:calc(var(--cw) * .07); top:calc(var(--cw) * .05); display:flex; align-items:baseline; gap:1px; white-space:nowrap; }
   .card .tl b { font-weight:400; letter-spacing:-.06em; }
-  .card .tl i { font-style:normal; font-size:.8em; }
+  .card .tl i { font-style:normal; font-size:.78em; }
   .card .br { position:absolute; right:calc(var(--cw) * .08); bottom:calc(var(--cw) * .02); font-size:1.5em; opacity:.22; }
   .card.hint { box-shadow:0 0 0 3px #ffd23f, 0 0 14px 4px rgba(255,210,63,.9); animation:pulse .7s ease-in-out infinite alternate; }
   @keyframes pulse { from { filter:brightness(1); } to { filter:brightness(1.12); } }
@@ -130,6 +130,13 @@
   #overlay button.sub { background:#fff; font-size:16px; padding:7px 20px; box-shadow:0 4px 0 var(--ink); }
   #overlay button:active { transform:translateY(4px); box-shadow:0 1px 0 var(--ink); }
 
+  /* 폰: 카드를 크게 보이려고 판이 화면 좌우 끝까지 (테두리·둥근 모서리 없이) */
+  @media (max-width:520px) {
+    #stage { padding:6px 0; }
+    #hud, #bar { padding-left:8px; padding-right:8px; }
+    #board { border-left:0; border-right:0; border-radius:0; box-shadow:none; }
+    #overlay { border-radius:0; }
+  }
   @media (max-width:420px) {
     #hud { gap:4px; }
     #hud .label { display:none; }

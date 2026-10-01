@@ -64,8 +64,10 @@ let colSlots = [], foundSlots = [], stockSlot = null;
 // ---------- 배치 ----------
 function metrics() {
   const W = board.clientWidth, H = board.clientHeight;
-  const gap = Math.max(2, Math.round(W * 0.007)), padX = Math.max(3, Math.round(W * 0.01));
-  const cw = Math.floor((W - padX * 2 - gap * 9) / 10), ch = Math.round(cw * 1.42);
+  // 폰은 가로가 모자라서 여백과 간격을 최소로 줄여 카드를 최대한 키운다
+  const small = W < 520;
+  const gap = small ? 1 : Math.max(2, Math.round(W * 0.007)), padX = small ? 2 : Math.max(3, Math.round(W * 0.01));
+  const cw = Math.floor((W - padX * 2 - gap * 9) / 10), ch = Math.round(cw * 1.45);
   M = { W, H, gap, padX, cw, ch, top: 8, bottomH: ch + 16 };
   M.sw = Math.floor(cw * 0.66); M.sh = Math.round(M.sw * 1.42);
   board.style.setProperty('--cw', cw + 'px');
@@ -154,7 +156,7 @@ function buildCards() {
 }
 
 function fit() {
-  const maxW = Math.min(innerWidth - 16, 860);
+  const maxW = innerWidth <= 520 ? innerWidth : Math.min(innerWidth - 16, 860);     // 폰은 화면 폭 전체를 쓴다
   colEl.style.width = maxW + 'px';
   const used = $('hud').offsetHeight + $('bar').offsetHeight + 8;
   board.style.height = Math.max(320, innerHeight - 16 - used - 14) + 'px';
