@@ -323,7 +323,7 @@ board.addEventListener('pointerdown', (e) => { if (e.target === stockSlot) doDea
 
 // ---------- 저장·이어하기 ----------
 function save() {
-  if (!st || won) return;
+  if (!st || won || !playing) return;                    // 타이틀 뒤의 빈 판은 저장하지 않는다
   store.set(SAVE_KEY, JSON.stringify({ v: 1, st: L.serialize(st), elapsed }));
 }
 function loadSave() {
