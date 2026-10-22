@@ -61,7 +61,7 @@ test('dropping: on a card one higher of any suit, or on an empty column', () => 
   assert.strictEqual(L.move(st, 0, 0, 0), null);
 });
 
-test('completing K→A removes the run, flips the card under it and adds 100', () => {
+test('completing K to A removes the run, flips the card under it and adds 100', () => {
   const run = [];
   for (let r = 13; r >= 2; r--) run.push([id1(r), 1]);
   const st = craft([[[id1(7, 1), 0], ...run], [[id1(1), 1]]]);

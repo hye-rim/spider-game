@@ -1,4 +1,6 @@
 'use strict';
+// 오락실 튜토리얼이 '진짜로 일어난 일'을 알아채는 신호 (arcade/public/tutorial.js 가 듣는다. 튜토리얼이 아니면 아무도 안 듣는다)
+const tutorialSignal = (type) => window.dispatchEvent(new CustomEvent('arcade:tutorial', { detail: { type } }));
 
 // 스파이더 카드: 화면·입력·흐름. 판 규칙은 logic.js (LOGIC) 에 있다.
 (() => {
@@ -232,6 +234,7 @@ function doMove(from, idx, to) {
   const info = L.move(st, from, idx, to);
   if (!info) { hist.pop(); return false; }
   if (!info.run) sfx.place();
+  tutorialSignal('move');
   afterAction(info);
   return true;
 }
@@ -251,6 +254,7 @@ function doDeal() {
   r.dealt.forEach(({ id, col }) => { els[id].style.transitionDelay = col * 40 + 'ms'; });
   clearTimeout(dealTimer); dealTimer = setTimeout(() => els.forEach((e) => { e.style.transitionDelay = ''; }), 700);
   sfx.deal();
+  tutorialSignal('deal');
   afterAction(r.runs.length ? { run: true } : null);
 }
 
