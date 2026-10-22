@@ -148,6 +148,16 @@ function rate(st, m) {
   s += Math.min(col.length - m.idx, 6);
   const newLen = dest.length ? runLenAfter(st, m) : col.length - m.idx;
   if (newLen >= RANKS) s += 100;                        // 한 묶음이 완성된다
+  // 이미 한 끗 큰 앞면 카드 위에 있는 묶음은, 다른 무늬 위에서 같은 무늬 위로 가거나 묶음이 완성될 때만 옮길 뜻이 있다
+  // (예전엔 Q 를 이 K 에서 저 K 로, 다시 되돌리는 수를 힌트가 끝없이 번갈아 골라 더미 나누기를 알려 주지 않았다)
+  if (m.idx > 0 && st.up[col[m.idx - 1]] && st.cards[col[m.idx - 1]].r === card.r + 1) {
+    const below = st.cards[col[m.idx - 1]];
+    const toSameSuit = dest.length && st.cards[dest[dest.length - 1]].s === card.s;
+    if (!(toSameSuit && (below.s !== card.s || newLen >= RANKS))) s -= 100;
+  }
+  if (m.idx === 0 && !dest.length) s -= 100;            // 열을 통째로 빈 열로 옮기는 건 아무것도 바뀌지 않는다
+  // 더미가 남았는데 열을 비우면 더미를 못 나눈다: 빈 열을 채우라는 힌트와 비우라는 힌트가 번갈아 나오지 않게
+  if (m.idx === 0 && dest.length && st.stock.length >= COLS) s -= 100;
   return s;
 }
 function runLenAfter(st, m) {
@@ -182,6 +192,11 @@ function hint(st) {
   // 의미 없는 옮기기(빈 열끼리 돌려 놓기 등)는 힌트로 주지 않는다
   if (m && rate(st, m) > -10) return { type: 'move', ...m };
   if (canDeal(st)) return { type: 'deal' };
+  // 빈 열 때문에 더미를 못 나누면 빈 열을 채우는 수를 알려 준다 (열을 통째로 옮기는 건 빼고)
+  if (st.stock.length >= COLS) {
+    const fill = bestMove(st, (x) => x.idx > 0 && !st.cols[x.to].length);
+    if (fill) return { type: 'move', ...fill };
+  }
   return m ? { type: 'move', ...m } : null;
 }
 

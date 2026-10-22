@@ -11,4 +11,4 @@
 - 되돌리기(무제한, 한 번에 -1점) · 💡 힌트 · 이어하기(브라우저에 자동 저장)
 - 최고 기록: `spiderBest1` · `spiderBest2` · `spiderBest4`, 로비용 `spiderBest`(셋 중 최고)
 
-판 규칙은 `logic.js`(화면 없이 Node 로도 돌려 볼 수 있다), 화면·입력은 `game.js`.
+판 규칙은 `logic.js`(화면 없이 Node 로 시험할 수 있다: `node test/logic.test.js`), 화면·입력은 `game.js`.
